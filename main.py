@@ -5,15 +5,7 @@ import joblib
 
 
 app = Flask(__name__)
-model_ricebug = joblib.load('RandomForest_Ricebug.pkl')
-model_leaffolder = joblib.load('XGBClassifier_LeafFolder.pkl')
-model_gall_midge = joblib.load('XGBClassifier_GallMidge.pkl')
-model_green_leaf = joblib.load('XGBClassifier_Greenleafhopper.pkl')
 
-#model_kanaka = joblib.load('DecisionTree_Kanaka.pkl')
-model_dhana = joblib.load('gradiant_DHANA.pkl')
-#model_anakkayam = joblib.load('LogisticRegression_Anakkayam.pkl')
-model_madakkathara = joblib.load('XGB_MADAKKATHARA.pkl')
 
 @app.route('/')
 def home():
@@ -41,6 +33,11 @@ def predict():
 @app.route('/predict_api2',methods=['POST'])
 def predict_api2():
     try:
+        model_ricebug = joblib.load('RandomForest_Ricebug.pkl')
+        model_leaffolder = joblib.load('XGBClassifier_LeafFolder.pkl')
+        model_gall_midge = joblib.load('XGBClassifier_GallMidge.pkl')
+        model_green_leaf = joblib.load('XGBClassifier_Greenleafhopper.pkl')
+
         data = request.json
         features = data['features']
     
@@ -53,6 +50,12 @@ def predict_api2():
         # Prepare response as JSON
         response = {'ricebug': int(prediction1), 'leaffolder': int(prediction2), 'gall_midge':int(prediction3), 'green_leaf':int(prediction4)}
 
+        del model_ricebug
+        del model_leaffolder
+        del model_gall_midge
+        del model_green_leaf
+
+
         return jsonify(response)
     except Exception as e:
         # Handle prediction error
@@ -63,6 +66,11 @@ def predict_api2():
 @app.route('/predict_api3',methods=['POST'])
 def predict_api3():
     try:
+        #model_kanaka = joblib.load('DecisionTree_Kanaka.pkl')
+        model_dhana = joblib.load('gradiant_DHANA.pkl')
+        #model_anakkayam = joblib.load('LogisticRegression_Anakkayam.pkl')
+        model_madakkathara = joblib.load('XGB_MADAKKATHARA.pkl')
+
         data = request.json
         features = data['features']
     
@@ -75,6 +83,9 @@ def predict_api3():
         # Prepare response as JSON
         response = { 'dhana':int(prediction6), 'madakkathara':int(prediction8)}
 
+        del model_dhana
+        del model_madakkathara
+        
         return jsonify(response)
     except Exception as e:
         # Handle prediction error
